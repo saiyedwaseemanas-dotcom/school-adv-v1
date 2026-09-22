@@ -213,8 +213,8 @@ export const ApkBuildModal: React.FC<ApkBuildModalProps> = ({
                 <div className="font-semibold text-[#131b2e]">Pipeline Details:</div>
                 <ul className="list-disc list-inside space-y-1 text-[#515f74]">
                   <li><strong>Runner:</strong> <code>ubuntu-latest</code></li>
-                  <li><strong>JDK:</strong> Eclipse Temurin 21</li>
-                  <li><strong>Node.js:</strong> v20 (with npm cache enabled)</li>
+                  <li><strong>JDK:</strong> Eclipse Temurin 21 (actions/setup-java@v5)</li>
+                  <li><strong>Node.js:</strong> v22 LTS</li>
                   <li><strong>Gradle Wrapper:</strong> Gradle 8.14.3</li>
                   <li><strong>Capacitor Android:</strong> v8.5+ with AGP 8.13</li>
                   <li><strong>Output Artifact:</strong> <code>EduTrack-debug.apk</code> in <code>build-artifacts/</code></li>
