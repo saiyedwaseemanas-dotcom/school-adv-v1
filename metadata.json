@@ -1,0 +1,6 @@
+{
+  "name": "EduTrack",
+  "description": "School & Academic Management Portal for Attendance, Syllabus Tracking, Marks & Examination Grading, and Institutional Analytics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

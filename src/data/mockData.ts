@@ -1,0 +1,278 @@
+import {
+  StudentMarkRecord,
+  StudentAttendanceRecord,
+  SyllabusChapter,
+  FacultyRecord,
+} from '../types';
+
+export const APP_LOGO =
+  'https://lh3.googleusercontent.com/aida/AEtjO1W3LXAGXpZFsucdQc1c13FsAo_pbe3WQlzI0-RODnwtS4ByWiSTar3XaRJGr4qatHGC4jAhRm6miHIGrHInOyBg7BSJibsO4OiQaFk5tl8SLol-9SamCkzBnnA3IUgUcCzHTBFvQY08NDb7xRYgNI3wUH0xoWIqQ00FkU14GkELGsJPLDPXcPGoSh7v4VE1T3wjHdixPZicKtDfe_U8-WDsMiB47PClmEu-UNSFngGQbhcVYWMRmcwuiQM5';
+
+export const PROFILE_AVATAR =
+  'https://lh3.googleusercontent.com/aida-public/AB6AXuBJdzqHa9G1qSXX2cgoc7Fic4a0DTx8ce8lfjw__c8EVvKa2QkoXllqZ4Yin2gxVaIUUvhc6Nw9aIC2RWkv2StF2MQYHe49dAfDi1eON9V2efR8OxStUpgkbCoAOJq6or-MJJutBs_O1K_Bc-RzJc0jUTo3lzvrODStv6zlGLktsRC3QUD2o4c83mM0rH96tKemWLIlFgXVd0-_YVVWsYZkZFoU_mcD_8ypxEjnxfnicDsywEUtj42tfw';
+
+export const INITIAL_MARKS_RECORDS: StudentMarkRecord[] = [
+  {
+    id: 1,
+    name: 'Ananya Iyer',
+    rollNo: '10A01',
+    rank: 1,
+    score: 49,
+    maxScore: 50,
+    percent: 98,
+    grade: 'A+',
+    status: 'Passed',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuCDmZlbcotRrhCCjtReKsrBcenJwiHv2Ec7f-EILX_6_PGxxOztudk5NTkmfHRoRP7JZMR-C5FkeUMx0aQzhDmqfxcG8zwMTKywMd9s7nUPzkIZRK-RNPAt68ZrOSu3jD9f6rJjjnZmVdGuXUiD97sndiUN1RbAJ38wCeKJMlDxKj_BmjgHSuldpB8HH2oUrLznl4RsggGInvGWvyLTQ6TZX7u_7wUWXnEwjaQlMbHI0qw9u8cRwpnjAA',
+    remarks: 'Exceptional analytical reasoning and class topper performance.',
+  },
+  {
+    id: 2,
+    name: 'Dev Patel',
+    rollNo: '10A02',
+    rank: 2,
+    score: 44,
+    maxScore: 50,
+    percent: 88,
+    grade: 'A',
+    status: 'Passed',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuAL00CKkRJEKRA9x35BYned7DjgyIPecoLl3xAsodNNmPps83pB5erd9dLgJN4s4iRjZtnxkn16AFLhfze4afg4Qpk7gaUn4xKaU_JL3ak6JENwOVc-0G4TIOdN4ts3XX87_zxl5d35ObxfTLbBZDo-e0l5YfpWra65RBfr8fYeKfxtaXVeG4ckvZ8Ri8i2_7EVMCRMbNdSwI8hiLd1TkacurbNjZ9AfLM0fOTmc2LRfberzNRfEYiUbg',
+    remarks: 'Strong understanding of scientific fundamentals.',
+  },
+  {
+    id: 3,
+    name: 'Rohan Sharma',
+    rollNo: '10A03',
+    rank: 3,
+    score: 37,
+    maxScore: 50,
+    percent: 74,
+    grade: 'B',
+    status: 'Passed',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuBC3WAJaXEAGSNA4N2Jb4_9pGNau8GvpaJvAnZYastW5SY5b_44ouebb5LxxBJoVecNdfiOWuKgOOqIV8AjrOaDIfBJrggiuBMJ5ouCkrNoldt9ANT3eDQCSYalSOkVHFNmZfvcmX_Fn8LJp-s5_JStVWjj2GzDrbmJWVfQuR7MJoq9UOW5INv8obV6t_SOvifL5ZOChxWdUWgjtIUbv5Dnj-2U14TZ3T1oVQB5XZ25RA1406OlB1tPWg',
+    remarks: 'Good effort in theory, needs practice in numerical sections.',
+  },
+  {
+    id: 4,
+    name: 'Kavya Menon',
+    rollNo: '10A04',
+    rank: 4,
+    score: 28,
+    maxScore: 50,
+    percent: 56,
+    grade: 'C',
+    status: 'Passed',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuAewWdjXu3SvJWOoS9uT7GtDgUlTxbBVKGr9_16tv0FncAf09MHBciW4DafjsKOZgzvVXKGYA8Iev6UomCce1soNGKugW2a7TddUdAPpPSQgZAVhJqFTfm5RA85buyA-REEy58kAOjnDUx9vFV1LQ7-JGDVpJ3d28jIqZgrfmQsRJWlUCSQ_49rwCZ5_L7mp7Ato85k9G6Ir5KK1FuUwgF7UhOuQ8jZR-lfim76avUCzh5Fthx2PpPtYg',
+    remarks: 'Needs revision in basic diagrams and formula derivation.',
+  },
+  {
+    id: 5,
+    name: 'Tanya Verma',
+    rollNo: '10A05',
+    rank: 39,
+    score: 14,
+    maxScore: 50,
+    percent: 28,
+    grade: 'Fail',
+    status: 'Needs Help',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuCp6LVWK61dYQWN_R25PV7JZXKatEmht6stw5l0ncdGmoqVbwFewlmKGkyOYQfE6ZCr12ZH4BqtIB3nGb_92AqolpMj3FlQxjIjY1jelv4KnDuSrGP_ufCSbvvwKLoncaNW739Kd3IcBzYcA0uUQk9CXABft7uU6CkE2BuQPuKbMmjkO9M9-Pbw1oTVvDfR1_i8skIWqPQpRyC6FVdKr39JTIr_7LjaN4jP9z_v7E0Xytsh4tWOmPUDqQ',
+    remarks: 'Remedial coaching recommended for upcoming Mid-Terms.',
+  },
+];
+
+export const INITIAL_ATTENDANCE_RECORDS: StudentAttendanceRecord[] = [
+  {
+    id: 1,
+    name: 'Aarav Sharma',
+    rollNo: '01',
+    section: 'Sec 10A',
+    attendancePercent: 94,
+    status: 'P',
+    parentPhone: '+91 98201 44321',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuA-oDyVhMWz9hRvZISFYjg6p4qTQ6LgH1Hl3c2lMQwWMqpRFzgPopeEs_JZxnYdoeguBlX4pqudPlvJ201IXQlmmCGyXS5KtlqUSXaKDthC65AXiVGQu5vgNIot6LDZqDTrpwWUH2hA9VayMAK5RINfryqB0nYlUKrBbTbFVZEktA5zvf9KK1f2oN8mvAm4MMqExHblck4gLmOlIgPhY2HUNo5HxS4KTZI4Detc06-M5uMC3K6EubSlWQ',
+  },
+  {
+    id: 2,
+    name: 'Ananya Iyer',
+    rollNo: '02',
+    section: 'Sec 10A',
+    attendancePercent: 68,
+    status: 'A',
+    isDefaulter: true,
+    parentPhone: '+91 97112 00412',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuD7j5V382IZVSsi02-0tb9gDkRwWUvi7BzxxGyAG5I4CHMIVeRR5N46YiNvbfhuuRNpNrjacUZk503mdCHpp31BcS94SDhfCg0M4HOBurQJcLfpGd4BS1Nu9k6enyc3EliHybzBqlisumlYfNBEG6pygVCNKBWFleGWj9xeupOXMMyGMYAL_cZAYF8_rF7qKAbWqh12HvLF-6SAcj8QiqavvMcuE0JUAHSq7rupOXZPV7GrqAuADQHGgw',
+  },
+  {
+    id: 3,
+    name: 'Devansh Verma',
+    rollNo: '03',
+    section: 'Sec 10A',
+    attendancePercent: 88,
+    status: 'L',
+    parentPhone: '+91 99103 88124',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuDOWQ-P8SRi7ZIwI2RBzL2GV79Q_yWqur-S5hUjFjM9L9b9kqbdSUf1XXIdievx3-jp9OKq3LLbLrBR-uV7bRJ8bnfKTz2PXTIw5YmyKim6VQl3k35VipNMWFflFw5AqunsFGIjnh1RRtGalbxMn48D2k138CVVWndq55Ss9b16x0fGRLNjM29hCAR0IPwOsMVZibdWow9gGonJms5s6iUud0Kyuo274BSUcdLnkZCWcckwY3SLmI3-Pw',
+  },
+  {
+    id: 4,
+    name: 'Ishita Sen',
+    rollNo: '04',
+    section: 'Sec 10A',
+    attendancePercent: 91,
+    status: 'HD',
+    parentPhone: '+91 94220 18873',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuC7OHd4cvzlYQcdolJBXHHTzNFzgwTousjUmcVk64WHIi4hbawhFljaEGlvBGL90TJ-xj1m5eQ6Xf--JB7JSO2ZtcepJcesu13vZuwy9XaBVW2lsqDIAcAB1YjfXIccX0tQLBUhJgWZKs77e48r6PfbX9tje-tv3nfYKBGYEgnJk0_9kzXT8uBp5HWoldWQ-Grcv2-ZxqmC3QJsH3LzoJgcRRXPi10SctjPuJSvw-odJlxW3Kqe_DMEZg',
+  },
+];
+
+export const INITIAL_SYLLABUS_CHAPTERS: SyllabusChapter[] = [
+  {
+    id: 1,
+    chapterNum: 1,
+    title: 'Real Numbers',
+    periodsAllotted: 4,
+    periodsConducted: 4,
+    status: 'Completed',
+    finishedDate: '2024-07-12',
+    notes: 'Completed with NCERT Ex 1.1-1.4; revision tests checked.',
+    homework: 'HW #1 In',
+  },
+  {
+    id: 2,
+    chapterNum: 2,
+    title: 'Polynomials',
+    periodsAllotted: 6,
+    periodsConducted: 6,
+    status: 'Completed',
+    finishedDate: '2024-07-28',
+    notes: 'Geometrical meaning covered; parabolic curves demonstrated.',
+    homework: 'HW #2 Graded',
+  },
+  {
+    id: 3,
+    chapterNum: 3,
+    title: 'Pair of Linear Equations',
+    periodsAllotted: 8,
+    periodsConducted: 8,
+    status: 'Completed',
+    finishedDate: '2024-08-14',
+    notes: 'Elimination & Substitution methods mastered with high quiz marks.',
+    homework: 'Practice set 3',
+  },
+  {
+    id: 4,
+    chapterNum: 4,
+    title: 'Quadratic Equations',
+    periodsAllotted: 7,
+    periodsConducted: 7,
+    status: 'Completed',
+    finishedDate: '2024-09-02',
+    notes: 'Factorisation and formula approach taught.',
+    homework: 'Lab Activity 4 completed',
+  },
+  {
+    id: 5,
+    chapterNum: 5,
+    title: 'Arithmetic Progressions',
+    periodsAllotted: 6,
+    periodsConducted: 6,
+    status: 'Completed',
+    finishedDate: '2024-09-20',
+    notes: 'Sum of n-terms formulas solved with standard assessment #5.',
+    homework: 'Standard assessment #5',
+  },
+  {
+    id: 6,
+    chapterNum: 6,
+    title: 'Triangles',
+    periodsAllotted: 9,
+    periodsConducted: 9,
+    status: 'Completed',
+    finishedDate: '2024-10-08',
+    notes: 'Basic Proportionality Theorem verified through geometric proofs.',
+    homework: 'Theorem derivation sheet',
+  },
+  {
+    id: 7,
+    chapterNum: 7,
+    title: 'Coordinate Geometry',
+    periodsAllotted: 5,
+    periodsConducted: 3,
+    status: 'In Progress',
+    notes: 'Currently deriving the Section Formula in internal division mode.',
+    homework: 'Ex 7.2 Q 1 to 5',
+    nextTopic: 'Section formula derivation',
+    periodsLeft: 2,
+  },
+  {
+    id: 8,
+    chapterNum: 8,
+    title: 'Introduction to Trigonometry',
+    periodsAllotted: 8,
+    periodsConducted: 0,
+    status: 'Not Started',
+    notes: '',
+    homework: '',
+  },
+  {
+    id: 9,
+    chapterNum: 9,
+    title: 'Applications of Trigonometry',
+    periodsAllotted: 6,
+    periodsConducted: 0,
+    status: 'Not Started',
+    notes: '',
+    homework: '',
+  },
+];
+
+export const FACULTY_MEMBERS: FacultyRecord[] = [
+  {
+    id: 'FAC-108',
+    name: 'Sarah Jenkins, M.Sc.',
+    title: 'Sr. Mathematics Faculty',
+    department: 'Mathematics Dept.',
+    checkInTime: '07:55 AM',
+    checkOutTime: '03:15 PM',
+    status: 'Present',
+    room: 'Room 204',
+    avatarUrl:
+      'https://lh3.googleusercontent.com/aida-public/AB6AXuCytCC-VdVaIQUzmYd3jmEMiG9FjwbqmIHm_Mlb9P39W1y4VGaFWyM2g0EElVz5ryLZhs76S5BT_pwILmavAVonRg8xHdnqVADvPuG7m_0oDmx8aL6gxTmIiIu534pVzysTwZlkS7G_cQkoHJ1aJVYK02p9qY35a7PbqEJo5Y57V4wVzTIpCLPJY_sZQpH6PIpGoyiC458y2KTOHuMcuTuIniATSCwD0zBDWJni__eNRVv9Vb_CTnswHA',
+  },
+  {
+    id: 'FAC-102',
+    name: 'Rajesh Kulkarni',
+    title: 'Associate Physics Teacher',
+    department: 'Science Dept.',
+    checkInTime: '07:48 AM',
+    checkOutTime: '03:30 PM',
+    status: 'Present',
+    room: 'Room 102',
+  },
+  {
+    id: 'FAC-105',
+    name: 'Pooja Malhotra',
+    title: 'Chemistry Teacher',
+    department: 'Science Dept.',
+    checkInTime: '-',
+    status: 'On Leave',
+    room: 'Lab 2',
+  },
+];
+
+export const ATTENDANCE_TREND_DATA = [
+  { day: 'Thu', rate: 92.4 },
+  { day: 'Fri', rate: 93.1 },
+  { day: 'Mon', rate: 95.8 },
+  { day: 'Tue', rate: 94.6 },
+  { day: 'Wed', rate: 96.0 },
+  { day: 'Thu', rate: 93.8 },
+  { day: 'Today', rate: 94.2 },
+];
