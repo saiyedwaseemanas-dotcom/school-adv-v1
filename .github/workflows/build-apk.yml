@@ -57,11 +57,7 @@ jobs:
 
       - name: Install NPM Dependencies
         run: |
-          if [ -f package-lock.json ]; then
-            npm ci || npm install --legacy-peer-deps
-          else
-            npm install --legacy-peer-deps
-          fi
+          npm install --legacy-peer-deps
 
       - name: Build Web Application (Vite)
         run: |
@@ -74,6 +70,10 @@ jobs:
       - name: Grant Execute Permission to Gradlew
         run: |
           chmod +x android/gradlew
+
+      - name: Accept Android SDK Licenses
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
       - name: Build Debug APK
         if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.build_type != 'release' }}
@@ -90,14 +90,16 @@ jobs:
       - name: Prepare APK Outputs
         run: |
           mkdir -p build-artifacts
+          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} build-artifacts/ \; || true
           if [ -f "android/app/build/outputs/apk/debug/app-debug.apk" ]; then
-            cp android/app/build/outputs/apk/debug/app-debug.apk build-artifacts/EduTrack-debug.apk
-            echo "Debug APK copied to build-artifacts/EduTrack-debug.apk"
+            cp -f android/app/build/outputs/apk/debug/app-debug.apk build-artifacts/EduTrack-debug.apk
+            echo "Copied EduTrack-debug.apk"
           fi
           if [ -f "android/app/build/outputs/apk/release/app-release-unsigned.apk" ]; then
-            cp android/app/build/outputs/apk/release/app-release-unsigned.apk build-artifacts/EduTrack-release-unsigned.apk
-            echo "Release APK copied to build-artifacts/EduTrack-release-unsigned.apk"
+            cp -f android/app/build/outputs/apk/release/app-release-unsigned.apk build-artifacts/EduTrack-release-unsigned.apk
+            echo "Copied EduTrack-release-unsigned.apk"
           fi
+          ls -la build-artifacts/
 
       - name: Upload APK as GitHub Artifact
         uses: actions/upload-artifact@v4
