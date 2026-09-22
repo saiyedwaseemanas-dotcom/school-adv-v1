@@ -39,14 +39,13 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
+          cache: 'gradle'
 
       - name: Set up Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+          cache: 'npm'
 
       - name: Install NPM Dependencies
         run: |
@@ -58,47 +57,32 @@ jobs:
 
       - name: Sync Capacitor Android
         run: |
-          npx cap sync android
+          npx @capacitor/cli sync android
 
-      - name: Ensure Capacitor and Cordova Configurations
+      - name: Prepare Android Directories and Permissions
         run: |
-          mkdir -p android/capacitor-cordova-android-plugins/src/main/libs
           mkdir -p android/app/libs
-          test -f android/capacitor-cordova-android-plugins/cordova.variables.gradle || printf '%s\n' \
-            '// Generated fallback for CI' \
-            'ext {' \
-            '  cdvMinSdkVersion = project.hasProperty("minSdkVersion") ? rootProject.ext.minSdkVersion : 24' \
-            '  cdvPluginPostBuildExtras = []' \
-            '  cordovaConfig = [:]' \
-            '}' > android/capacitor-cordova-android-plugins/cordova.variables.gradle
-          test -f android/capacitor-cordova-android-plugins/build.gradle || printf '%s\n' \
-            'apply plugin: "com.android.library"' \
-            'android {' \
-            '  namespace = "capacitor.cordova.android.plugins"' \
-            '  compileSdk = project.hasProperty("compileSdkVersion") ? rootProject.ext.compileSdkVersion : 35' \
-            '  defaultConfig {' \
-            '    minSdkVersion project.hasProperty("minSdkVersion") ? rootProject.ext.minSdkVersion : 24' \
-            '    targetSdkVersion project.hasProperty("targetSdkVersion") ? rootProject.ext.targetSdkVersion : 35' \
-            '  }' \
-            '}' > android/capacitor-cordova-android-plugins/build.gradle
+          mkdir -p android/capacitor-cordova-android-plugins/src/main/libs
           chmod +x android/gradlew
 
       - name: Build Debug APK
         if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.build_type != 'release' }}
+        working-directory: android
         run: |
-          cd android
-          ./gradlew assembleDebug --no-daemon --stacktrace --info
+          chmod +x ./gradlew
+          ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Build Release APK
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.build_type == 'release' }}
+        working-directory: android
         run: |
-          cd android
-          ./gradlew assembleRelease --no-daemon --stacktrace --info
+          chmod +x ./gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
 
       - name: Prepare APK Outputs
         run: |
           mkdir -p build-artifacts
-          find android/app/build/outputs/apk/ -name "*.apk" -type f -exec cp -f {} build-artifacts/ \; || true
+          find android/app/build/outputs/apk/ -name "*.apk" -type f -exec cp -f {} build-artifacts/ \; 2>/dev/null || true
           if [ -f "android/app/build/outputs/apk/debug/app-debug.apk" ]; then
             cp -f android/app/build/outputs/apk/debug/app-debug.apk build-artifacts/EduTrack-debug.apk
             echo "Copied EduTrack-debug.apk"
@@ -107,6 +91,9 @@ jobs:
             cp -f android/app/build/outputs/apk/release/app-release-unsigned.apk build-artifacts/EduTrack-release-unsigned.apk
             echo "Copied EduTrack-release-unsigned.apk"
           fi
+          echo "### 📱 Android Build Status" >> $GITHUB_STEP_SUMMARY
+          echo "Generated APK artifacts:" >> $GITHUB_STEP_SUMMARY
+          ls -lh build-artifacts/*.apk 2>/dev/null | awk '{print "- **" $9 "** (" $5 ")"}' >> $GITHUB_STEP_SUMMARY || echo "- No APKs found" >> $GITHUB_STEP_SUMMARY
           ls -la build-artifacts/
 
       - name: Upload APK as GitHub Artifact
