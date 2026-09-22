@@ -35,7 +35,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up JDK 21
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '21'
@@ -45,15 +45,8 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Cache Gradle Dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Install NPM Dependencies
         run: |
@@ -67,30 +60,51 @@ jobs:
         run: |
           npx cap sync android
 
-      - name: Grant Execute Permission to Gradlew
+      - name: Ensure Capacitor and Cordova Configurations
         run: |
+          mkdir -p android/capacitor-cordova-android-plugins/src/main/libs
+          mkdir -p android/app/libs
+          if [ ! -f "android/capacitor-cordova-android-plugins/cordova.variables.gradle" ]; then
+            cat << 'EOF' > android/capacitor-cordova-android-plugins/cordova.variables.gradle
+          // Generated fallback for CI compatibility
+          ext {
+            cdvMinSdkVersion = project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 24
+            cdvPluginPostBuildExtras = []
+            cordovaConfig = [:]
+          }
+          EOF
+          fi
+          if [ ! -f "android/capacitor-cordova-android-plugins/build.gradle" ]; then
+            cat << 'EOF' > android/capacitor-cordova-android-plugins/build.gradle
+          apply plugin: 'com.android.library'
+          android {
+              namespace = "capacitor.cordova.android.plugins"
+              compileSdk = project.hasProperty('compileSdkVersion') ? rootProject.ext.compileSdkVersion : 35
+              defaultConfig {
+                  minSdkVersion project.hasProperty('minSdkVersion') ? rootProject.ext.minSdkVersion : 24
+                  targetSdkVersion project.hasProperty('targetSdkVersion') ? rootProject.ext.targetSdkVersion : 35
+              }
+          }
+          EOF
+          fi
           chmod +x android/gradlew
-
-      - name: Accept Android SDK Licenses
-        run: |
-          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses || true
 
       - name: Build Debug APK
         if: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.build_type != 'release' }}
         run: |
           cd android
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug --no-daemon --stacktrace --info
 
       - name: Build Release APK
         if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.build_type == 'release' }}
         run: |
           cd android
-          ./gradlew assembleRelease --no-daemon --stacktrace
+          ./gradlew assembleRelease --no-daemon --stacktrace --info
 
       - name: Prepare APK Outputs
         run: |
           mkdir -p build-artifacts
-          find android/app/build/outputs/apk/ -name "*.apk" -exec cp {} build-artifacts/ \; || true
+          find android/app/build/outputs/apk/ -name "*.apk" -type f -exec cp -f {} build-artifacts/ \; || true
           if [ -f "android/app/build/outputs/apk/debug/app-debug.apk" ]; then
             cp -f android/app/build/outputs/apk/debug/app-debug.apk build-artifacts/EduTrack-debug.apk
             echo "Copied EduTrack-debug.apk"
